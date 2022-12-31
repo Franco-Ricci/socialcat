@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Social</title>
+    <link rel="shortcut icon" href="../images/artboard-10_89054.ico">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></link>
+
+</head>
+<body>
+    <header class="header__log">
+        <nav class="nav__log">
+            <h1>Cat Social</h1>
+            <form class="form__search">
+               <label for="search"></label>
+                <input class="search__input" type="search" placeholder="Buscar">
+                <button class="search__btn "id="search"><i class="fas fa-search"></i></button>
+            </form>
+            
+            <div class="menu__container">
+                <i class="fas fa-cat"></i>
+                <a class="menu__link" href="#"><i class="far fa-sun"></i></a>
+                <a class="menu__link" href="#"><i class="far fa-plus-square"></i></a>
+                <a class="menu__link" href="#"><i class="far fa-star"></i></a>
+                <a class="menu__link" href="#"><i class="far fa-heart"></i></a>
+                <div class="container__log">
+                <a class="menu__link--nameUser" href="">User</a>
+                <a class="menu__log">Cerrar Sesion</a>
+            </div>
+            </div>
+        </nav>
+    </header>
+    <div class="br-line"></div>
+
+ <div class="modal__bg">
+        <!-- <div class="modal__show">
+            <div class="modal__info">
+                <div class="modal__time">12/08/2021</div>
+                <div class="modal__icon">
+                    <span class="modal__media"><i class="far fa-heart"></i><span>
+                </div>
+            </div>
+            <button class="modal__close"><i class="fas fa-times"></i></button>
+            <i class="fas fa-arrow-right"></i>
+            <i class="fas fa-arrow-left"></i>
+        </div> -->
+    </div> 
+    <main class="main__log">
+    <div class="history__container">
+        
+     <div class="my__content">
+        <div class="history__load"></div>
+            <div class="my__history">
+            
+                <img src="../images/avatar-default.jpg" class="history__myImg"></img>
+                <p class="history__name">Tu Historia</p>
+                <i class="fas fa-plus-circle history__add"></i>
+                
+            </div>
+           
+            <div class="history">
+           
+           
+            </div>
+     </div>
+        <div class="main__suggest">
+            <h3>Sugerencias</h3>
+        
+        </div>
+        <div class="newHistory">
+            <div class="newHistory__content">
+            <div class="form__add">
+                <h3>Subir Historias</h3>
+               <form class="form__content">
+                   <label id="input-1">
+                <input id="input-1" type="url"class="input__add" placeholder="Ingrese url de imagen" required>
+                <div class="container__save">
+                    <input type="submit" class="btn__add" value="Enviar">
+                    <p class="url__error">Url no valida</p>
+                        <i class="fas fa-check-circle check"></i>
+                    </div>
+                </label>
+                </form>
+                <form class="form__content">
+                    <label id="input-2">
+                    <input id="input-2" type="url"class="input__add" placeholder="Ingrese url de imagen" required>
+                    <div class="container__save">
+                        <input type="submit" class="btn__add" value="Enviar">
+                        <p class="url__error">Url no valida</p>
+                            <i class="fas fa-check-circle check"></i>
+                        </div>
+                    </label>
+                </form>
+                    <form class="form__content">
+                        <label id="input-3">
+                        <input id="input-3" type="url"class="input__add" placeholder="Ingrese url de imagen" required>
+                        <div class="container__save">
+                        <input type="submit" class="btn__add" value="Enviar">
+                        <p class="url__error">Url no valida</p>
+                            <i class="fas fa-check-circle check"></i>
+                        </div>
+                        </label>
+                      
+                    </form>
+                    <div class="btn__container">
+                
+                <input type="button" class="btn__aceptar" value="Aceptar">
+                <input type="button" class="btn__cancelar" value="Cancelar">
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div class="main__container">
+            
+       
+        <div class="card__content">
+        </div>
+    </div>
+
+  
+    </main>
+
+    <script src="../js/main.js"></script>
+      <script src="../js/modalHis.js"></script>
+      <script src="../js/myHistory.js"></script>
+     
+</body>
+</html>
