@@ -116,8 +116,9 @@ body{
     display:none;
     color:red;
     margin-top: 7px;
-    font-size:10px;
+    font-size:11px;
     width: 190px;
+    font-weight: bold;
 }
 
 .text__error--show{
@@ -128,8 +129,9 @@ body{
     display:none;
     color:var(--ligth-blue);
     margin-top: 7px;
-    font-size:10px;
+    font-size:11px;
     width: 190px;
+    font-weight: bold;
 }
 
 .text__success{
@@ -138,6 +140,7 @@ body{
     margin-top: 7px;
     font-size:11px;
     width: 190px;
+    font-weight: bold;
 }
 .text__emailWarn{
     display:none;
@@ -145,13 +148,15 @@ body{
     margin-top: 7px;
     font-size:11px;
     width: 190px;
+    font-weight: bold;
 }
 
 .textLog__warn{
     display:none;
     color:var(--ligth-blue);
-    font-size:10px;
+    font-size:11px;
     width: 190px;
+    font-weight: bold;
 }
 
 .text__warn--show{

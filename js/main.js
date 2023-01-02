@@ -1,92 +1,96 @@
 const main = document.querySelector(".card__content");
 const historias = document.querySelector(".history");
-const historyContent = document.querySelector(".history__container")
+const historyContent = document.querySelector(".history__container");
 const suggest = document.querySelector(".main__suggest");
+let modalContainer = document.querySelector(".modal__bg");
 let page = 1;
+
+//nombres aleatorios para los usuarios de ejemplos
 const nicknames = [
   {
-    "name": "Oliver"
+    name: "Oliver",
   },
   {
-    "name": "Leo"
+    name: "Leo",
   },
   {
-    "name": "Smokey"
+    name: "Smokey",
   },
   {
-    "name": "Toby"
+    name: "Toby",
   },
   {
-    "name": "Buddy"
+    name: "Buddy",
   },
   {
-    "name": "Leo"
+    name: "Leo",
   },
   {
-    "name": "Felix"
+    name: "Felix",
   },
   {
-    "name": "George"
+    name: "George",
   },
   {
-    "name": "Salem"
+    name: "Salem",
   },
   {
-    "name": "Binx"
+    name: "Binx",
   },
   {
-    "name": "Dexter"
+    name: "Dexter",
   },
   {
-    "name": "Gus"
+    name: "Gus",
   },
   {
-    "name": "Luna"
+    name: "Luna",
   },
   {
-    "name": "Bella"
+    name: "Bella",
   },
   {
-    "name": "Lucy"
+    name: "Lucy",
   },
   {
-    "name": "Kitty"
+    name: "Kitty",
   },
   {
-    "name": "Nala"
+    name: "Nala",
   },
   {
-    "name": "Stella"
+    name: "Stella",
   },
   {
-    "name": "Daisy"
+    name: "Daisy",
   },
   {
-    "name": "Mia"
+    name: "Mia",
   },
   {
-    "name": "Gracie"
+    name: "Gracie",
   },
   {
-    "name": "Callie"
+    name: "Callie",
   },
   {
-    "name": "willow"
+    name: "willow",
   },
   {
-    "name": "kiki"
+    name: "kiki",
   },
   {
-    "name": "coco"
+    name: "coco",
   },
   {
-    "name": "Minnie"
-  }
-]
+    name: "Minnie",
+  },
+];
 
-let randomName = Math.floor(Math.random() * nicknames.length)
-let likeCont = Math.floor(Math.random() *100)
+let randomName = Math.floor(Math.random() * nicknames.length);
+let likeCont = Math.floor(Math.random() * 100);
 
+//funcion que trae más imagenes desde la api a medida que se desplaza por la pag
 let observer = new IntersectionObserver(
   (entry, observador) => {
     console.log(entry);
@@ -103,22 +107,10 @@ let observer = new IntersectionObserver(
   }
 );
 
-// const getData = () =>{
-//     let page = `https://cataas.com/`
-//     fetch(`https://api.thecatapi.com/v1/images/search?limit=5&page=10&order=Desc`)
-//     .then(result => result.json())
-//     .then(data => {
-//         data.forEach(e =>{
-//             console.log(e)
-//             showPostData(e)
-
-//         })
-//     })
-// }
-
-let dataImages = []
-let add = 0
-let contHist = document.querySelectorAll(".history__content")
+//Consumo de API de gatos usando fetch
+let dataImages = [];
+let add = 0;
+let contHist = document.querySelectorAll(".history__content");
 const getData = async () => {
   await Promise.all([
     fetch(
@@ -127,7 +119,6 @@ const getData = async () => {
     fetch(
       `https://api.thecatapi.com/v1/images/search?limit=5&page=10&order=Desc?mime_types=jpg,png?`
     ),
-
   ])
     .then((result) =>
       Promise.all(
@@ -136,89 +127,75 @@ const getData = async () => {
         })
       )
     )
-   
 
     .then(([dataHis, dataSug]) => {
-      historyContent.classList.add("history__show")
+      historyContent.classList.add("history__show");
       dataHis.forEach((e) => {
-        dataImages = dataHis
-        console.log(dataImages)
+        dataImages = dataHis;
         showHistory(e);
- 
-        hideLoadingHist()
-        
-        // console.log(e)
+        hideLoadingHist();
       });
-      modalHist()
-
+      modalHist();
 
       dataSug.forEach((e) => {
         showSuggest(e);
-        hideLoadSug()
-
-        // console.log(e)
+        hideLoadSug();
       });
     });
 };
 
+//consumo de api para las imagenes de los posts de usuarios
 const getPost = async () => {
-
   fetch(
     `https://api.thecatapi.com/v1/images/search?limit=5&page=${page}&order=Desc`
   )
-  
     .then((result) => result.json())
 
-    .then(async(data) => {
-    
+    .then(async (data) => {
       data.forEach((e) => {
-        
-        console.log(e);
         showPostData(e);
-        hideLoading()
-    
+        hideLoading();
+      });
 
-      })
-  
-
+      //observer detecta la ultima card y hace una nueva petición
       const traer = document.querySelectorAll(".main__card");
       let ultimacard = traer[traer.length - 1];
       console.log(ultimacard);
       observer.observe(ultimacard);
-    })
-   
+    });
 };
 
-const hideLoading = () =>{
-  let skeleton = document.querySelectorAll(".card__img")
+//efecto skeleton de pre carga de imagenes
+const hideLoading = () => {
+  let skeleton = document.querySelectorAll(".card__img");
   setTimeout(() => {
-    for(let i = 0; i < skeleton.length; i++){
-      skeleton[i].classList.add("skeleton__off")
-      console.log("hola")
+    for (let i = 0; i < skeleton.length; i++) {
+      skeleton[i].classList.add("skeleton__off");
     }
   }, 3000);
+};
 
-}
-
-const hideLoadingHist = () =>{
-  let historyImg = document.querySelectorAll(".history__img")
+//remuevo efecto skeleton
+const hideLoadingHist = () => {
+  let historyImg = document.querySelectorAll(".history__img");
   setTimeout(() => {
-    for(let i = 0; i < historyImg.length; i++){
-      historyImg[i].classList.remove("skeleton")
-    }  
+    for (let i = 0; i < historyImg.length; i++) {
+      historyImg[i].classList.remove("skeleton");
+    }
   }, 3000);
-  
-}
+};
 
-const hideLoadSug =() =>{
-  let suggestImg = document.querySelectorAll(".img__suggest")
+//skeleton en imagenes de usuarions sugeridos
+const hideLoadSug = () => {
+  let suggestImg = document.querySelectorAll(".img__suggest");
   setTimeout(() => {
-    for(let i = 0; i < suggestImg.length; i++){
-      suggestImg[i].classList.remove("skeleton")
-    }  
+    for (let i = 0; i < suggestImg.length; i++) {
+      suggestImg[i].classList.remove("skeleton");
+    }
   }, 3000);
-  
-}
+};
+
+//funcion que muestra cards con img de post de usuarios ejemplo
 function showPostData(data) {
   let catData = `<div class="main__card">
     <div class="card">
@@ -246,19 +223,13 @@ function showPostData(data) {
     </div>
 
 </div>`;
-randomName = Math.floor(Math.random() * nicknames.length)
-likeCont = Math.floor(Math.random() *100)
+  randomName = Math.floor(Math.random() * nicknames.length);
+  likeCont = Math.floor(Math.random() * 100);
   main.innerHTML += catData;
 }
-let con = 0
+let con = 0;
 const showHistory = (his) => {
-  
-  let imgHis
-  // for(let i = 0; i< nicknames.length; i++){
-  //   console.log(nicknames[i].name)
-  // }
-  
- imgHis = `
+  let imgHis = `
     <div class="history__content">
         <img src=${his.url} data-pic=${add}  class="history__img history__active skeleton "></img>
         <p class="history__name">${nicknames[randomName].name}</p>
@@ -266,32 +237,22 @@ const showHistory = (his) => {
      
 </div>
     `;
-//     <div class="modal__info">
-  
-//     <div class="modal__time">12/08/2021</div>
-//     <div class="modal__icon">
-//         <span class="modal__media"><i class="far fa-heart"></i><span>
-//     </div>
-//     </div>
-// <i class="fas fa-times modal__close"></i>
-// <i class="fas fa-chevron-right next"></i>
-// <i class="fas fa-chevron-left prev"></i>
-// </div>
-randomName = Math.floor(Math.random() * nicknames.length)
- 
+
+  randomName = Math.floor(Math.random() * nicknames.length);
+
   historias.innerHTML += imgHis;
 
-let historyImg = document.querySelectorAll(".history__img")
-let nexaHis
+  let historyImg = document.querySelectorAll(".history__img");
+  let nexaHis;
 
-historyImg.forEach((e =>{
-     
-  const fecha = new Date()
-  e.addEventListener("click", () =>{
-    document.body.classList.toggle("bodyHide")
-      modalContainer.classList.add("modal__bg-on")
-console.log(e.src)
-  let mostrar = `
+  //carga de modal con imagen
+  historyImg.forEach((e) => {
+    const fecha = new Date();
+    e.addEventListener("click", () => {
+      document.body.classList.toggle("bodyHide");
+      modalContainer.classList.add("modal__bg-on");
+      console.log(e.src);
+      let mostrar = `
   <div class="modal__show">
 
   <img class="modal__img" src=${e.src} data-img:${add}></img>
@@ -306,142 +267,64 @@ console.log(e.src)
       <i class="fas fa-chevron-right next"></i>
       <i class="fas fa-chevron-left prev"></i>
   </div>
-</div>`
+</div>`;
 
-  modalContainer.innerHTML = mostrar
-  
+      modalContainer.innerHTML = mostrar;
+      console.log(e.getAttribute("data-pic"));
+      console.log(e.dataset.pic);
 
-  for(let i = 0; i < historyImg.length; i++){
-    console.log(historyImg[i].getAttribute("data-pic"))
-    console.log(historyImg[i].getAttribute("src"))
-     console.log(historyImg[i].dataset.pic)
+      //cambio de imagen del modal con los botones prev y next
 
-  }
-  
+      nexaHis = document.querySelectorAll(".next");
+      prevHis = document.querySelectorAll(".prev");
+      let imgIndex = parseInt(e.dataset.pic);
+      let mimg = document.querySelector(".modal__img");
+      for (let j = 0; j < nexaHis.length; j++) {
+        console.log(historyImg[j].dataset.pic);
 
-  console.log(e.getAttribute("data-pic"))
-  console.log(e.dataset.pic)
-nexaHis  = document.querySelectorAll(".next")
-prevHis = document.querySelectorAll(".prev")
-let asdx = parseInt(e.dataset.pic) 
-let mimg = document.querySelector(".modal__img")
-    for(let j = 0; j < nexaHis.length; j++){
-      
-      console.log(historyImg[j].dataset.pic)
-     
-  nexaHis[j].addEventListener("click", function (){
-  
-    for(let i = 0; i < historyImg.length; i++){
-      if(i == j){
-        console.log(historyImg[i+1].src)
-        console.log(j)
-        console.log(i)
+        nexaHis[j].addEventListener("click", function () {
+          if (imgIndex < historyImg.length - 1) {
+            console.log(e.getAttribute("data-pic"));
+            console.log(e.dataset.pic);
+
+            console.log(imgIndex + 1);
+            mimg.src = historyImg[imgIndex + 1].src;
+            console.log(historyImg[imgIndex + 1].src);
+            historyImg[imgIndex + 1].classList.remove("history__active");
+            imgIndex++;
+
+            console.log(add);
+          } else {
+            console.log("imgIndex es mas grande");
+
+            modalContainer.classList.remove("modal__bg-on");
+          }
+        });
       }
-    }
-    if(asdx < historyImg.length-1){
-      console.log(e.getAttribute("data-pic"))
-      console.log(e.dataset.pic)
-    
-      console.log(asdx + 1)
-      mimg.src = historyImg[asdx + 1].src
-      console.log(historyImg[asdx + 1].src)
-      historyImg[asdx + 1].classList.remove("history__active")
-      asdx++
 
-      console.log(e)
-
- 
-      // console.log(historyImg[add].src)
-      console.log(add)
-    }else{
-      console.log("asdx es mas grande")
-    
-      modalContainer.classList.remove("modal__bg-on")
-    
-    }
- 
-
-  })
-}
-
-prevHis.forEach((e) =>{
-  e.addEventListener("click", () =>{
-     console.log("qweas")
-    if(asdx > 0){
-      mimg.src = historyImg[asdx - 1].src
-      console.log(historyImg[asdx - 1].src)
-      historyImg[asdx - 1].classList.remove("history__active")
-      asdx--
-    }else{
-      modalContainer.classList.remove("modal__bg-on")
-    }
-  })
-})
-})
-
-})
-)
-
-
-// imgHis.forEach((e) =>{
-//   modalContainer.classList.add("modal__bg-on")
-//   e.addEventListener("click", () =>{
-//     let mostrar = `
-//     <div class="modal__show">
-  
-//     <img class="modal__img" src=${his.src} data-img=${add} data-exa=${add}></img>
-//         <div class="modal__info">
-  
-//             <div class="modal__time">12/08/2021</div>
-//             <div class="modal__icon">
-//                 <span class="modal__media"><i class="far fa-heart"></i><span>
-//             </div>
-//             </div>
-//         <i class="fas fa-times modal__close"></i>
-//         <i class="fas fa-chevron-right next"></i>
-//         <i class="fas fa-chevron-left prev"></i>
-//     </div>
-//   </div>`
-  
-//     modalContainer.innerHTML = mostrar
-//   })
-// })
-
- 
-//   let asdaxzc = document.querySelectorAll(".history__img")
-//   let nexta = document.querySelector(".next")
-//   console.log(modalImg)
-//   console.log(his)
-//   // let conta = {...asdaxzc.dataset.img}
-//   // console.log(conta)
-//    nexta.addEventListener("click", () =>{
-//      asdaxzc.forEach((e) =>{
-//       e.addEventListener("click", () =>{
-//         console.log(e)
-   
-  
-//        console.log(modalImg.src)
-//        console.log(dataImages)
-//        for(let i = 0; i < dataImages.length; i++){
-//          console.log(dataImages[i].url)
-//          asdaxzc.src = dataImages[i].url
-//          console.log(modalImg)
-//          console.log(asdaxzc)
-//        }
-   
-//        console.log(dataImages[2].url)
-//         console.log(asdaxzc)
-//      })
-//     })
-//     })
-     add++
+      prevHis.forEach((e) => {
+        e.addEventListener("click", () => {
+          if (imgIndex > 0) {
+            mimg.src = historyImg[imgIndex - 1].src;
+            console.log(historyImg[imgIndex - 1].src);
+            historyImg[imgIndex - 1].classList.remove("history__active");
+            imgIndex--;
+          } else {
+            modalContainer.classList.remove("modal__bg-on");
+          }
+        });
+      });
+    });
+  });
+  add++;
 };
-let histContent = document.querySelectorAll(".history__content")
-const namesHist = (e) =>{
-let name =  `<p class="history__name">${e}</p>`
-histContent.appendChild(name)
-}
+let histContent = document.querySelectorAll(".history__content");
+const namesHist = (e) => {
+  let name = `<p class="history__name">${e}</p>`;
+  histContent.appendChild(name);
+};
 
+//card de usuarios sugeridos
 const showSuggest = (sug) => {
   let carSug = `
     
@@ -454,232 +337,57 @@ const showSuggest = (sug) => {
         <button class="close"><i class="fas fa-times"></i></button>
        
     `;
-    randomName = Math.floor(Math.random() * nicknames.length)
+  randomName = Math.floor(Math.random() * nicknames.length);
   suggest.innerHTML += carSug;
-  let x = document.querySelectorAll(".close")
-  let info = document.querySelectorAll(".info__suggest")
-  
-  let cont = 10
+  let x = document.querySelectorAll(".close");
+  let info = document.querySelectorAll(".info__suggest");
 
-  
-  for(let i = 0; i < info.length; i++){
-  
+  let cont = info.length;
 
-    x[i].addEventListener("click", ()=>{
-      console.log("aqui")
-      info[i].remove()
-       console.log(info.length)
-       console.log(info[i])
-       cont--
-       console.log(cont)
-       if(cont == 0){
-        console.log("no hay sugerencias")
-        console.log(cont)
-        suggest.classList.add("main__suggest--close")
+  for (let i = 0; i < info.length; i++) {
+    x[i].addEventListener("click", () => {
+      info[i].remove();
+      console.log(info.length);
+      cont--;
+      console.log(cont);
+      if (cont == 0) {
+        console.log("no hay sugerencias");
+        console.log(cont);
+        suggest.classList.add("main__suggest--close");
       }
-      })
-
-    }
-  
+    });
+  }
 };
 
+//modal de las stories ejemplo
+let modalImg = document.querySelectorAll(".modal__img");
 
-// const names = async () => {
-//   fetch(`https://api.fungenerators.com/name/generate?category=cat&limit=6`)
+const modalHist = () => {
+  let openHis = document.querySelectorAll(".history__img");
+  contHist.forEach((cont) => {
+    cont.classList.add("modal__show");
+    console.log(cont);
+  });
+  openHis.forEach((e) => {
+    e.addEventListener("click", () => {
+      e.classList.remove("history__active");
+      modalContainer.classList.add("modal__bg-on");
+    });
 
-//   .then((result) => result.json())
-//   .then(data => {
-//       console.log(data)
-//    data.contents.names.forEach((e) => {
-//       console.log(data)
-
-//     }
-//    )
-//   })
-// }
-
-
-
-let modalImg = document.querySelectorAll(".modal__img")
-
-let modalContainer = document.querySelector(".modal__bg")
-
-const modalHist = () =>{
-  let openHis = document.querySelectorAll(".history__img")
-      contHist.forEach(cont => {
-           cont.classList.add("modal__show")
-           console.log(cont)
-         })
-  openHis.forEach(e => {
-    console.log(e)
-
-      e.addEventListener("click", () =>{
-          console.log("puede ser")
-          console.log(e)
-         
-       modalshow(e)
-         e.classList.remove("history__active")
-         modalContainer.classList.add("modal__bg-on")
-      
-       
-        
-      })
-      if(modalContainer.classList.contains(".modal__bg")){
-        e.classList.remove("modal__img")
-        console.log("asdf")
-       }
-      let datos = []
-      for(let i =0; i < openHis.length; i++){
-        datos.push({"id":[i], "images":openHis[i]})
+    modalContainer.addEventListener("click", (e) => {
+      if (
+        e.target.classList.contains("modal__close") ||
+        e.target == modalContainer
+      ) {
+        modalContainer.classList.remove("modal__bg-on");
+        openHis.forEach((e) => {
+          e.classList.remove("modal__img");
+        });
       }
-     
-      let cont =0;
+    });
+  });
+};
 
-      console.log(datos)
-      // let nexta = document.querySelectorAll(".next")
-      // console.log(modalImg)
-   
-      //  nexta.forEach(e => {
-      //    e.addEventListener("click", () =>{
-      //      modalImg.src = openHis[cont].img
-      //      console.log(modalImg.src)
-      //      console.log(dataImages)
-      //      for(let i = 0; i < dataImages.length; i++){
-      //        console.log(dataImages[i].url)
-             
-      //        console.log(modalImg)
-      //      }
-      //      modalImg.src = dataImages[2].url
-      //      console.log(dataImages[2].url)
-      //    })
-  
-      //  })
-      modalContainer.addEventListener("click", (e) =>{
-        console.log(e.target)
-       
-        // if (e.target.classList.contains("prev")) {
-        //   if (cont > 0) {
-        //     modalImg.src = openHis[cont - 1].img;
-
-        //     cont--;
-        //   } else {
-        //     let mostrar = `
-        //     <div class="modal__show">
-          
-        //     <img class="modal__img" src=${openHis[6].src} ></img>
-        //         <div class="modal__info">
-          
-        //             <div class="modal__time">12/08/2021</div>
-        //             <div class="modal__icon">
-        //                 <span class="modal__media"><i class="far fa-heart"></i><span>
-        //             </div>
-        //             </div>
-        //         <i class="fas fa-times modal__close"></i>
-        //         <i class="fas fa-chevron-right next"></i>
-        //         <i class="fas fa-chevron-left prev"></i>
-        //     </div>
-        // </div>`;
-        //     modalContainer.innerHTML = mostrar;
-
-        //     cont = openHis.length - 1;
-        //   }
-        // // } else if (e.target.classList.contains("next")) {
-        // //   if (cont < openHis.length - 1) {
-        // //     console.log(modalImg);
-        // //     console.log(openHis[cont].src);
-        // //     modalImg.src = dataImages[cont].url;
-        // //     console.log(modalImg.src);
-
-        // //     cont++;
-        // //     console.log(cont);
-        // //     console.log("primer next");
-        // //   } else {
-        // //     let mostrar = `
-        // //     <div class="modal__show">
-          
-        // //     <img class="modal__img" src=${openHis[0].src} ></img>
-        // //         <div class="modal__info">
-          
-        // //             <div class="modal__time">12/08/2021</div>
-        // //             <div class="modal__icon">
-        // //                 <span class="modal__media"><i class="far fa-heart"></i><span>
-        // //             </div>
-        // //             </div>
-        // //         <i class="fas fa-times modal__close"></i>
-        // //         <i class="fas fa-chevron-right next"></i>
-        // //         <i class="fas fa-chevron-left prev"></i>
-        // //     </div>
-        // // </div>`;
-        // //     modalContainer.innerHTML = mostrar;
-        // //     cont = 0;
-
-        // //     modalContainer.classList.remove("modal__bg-on");
-        // //   }
-        // }
-
-        if(e.target.classList.contains("modal__close") || e.target == modalContainer){
-          modalContainer.classList.remove("modal__bg-on")
-          openHis.forEach(e =>{
-            e.classList.remove("modal__img")
-          })
-        }
-        
-      })
-  })
-
-}
-let exa = 1
-  const modalshow = (e) =>{
-    
-//     modalContainer.classList.add("modal__bg-on")
-
-//     for(let i = 0; i < e.length; i++){
-//       console.log(e.src)
-//     }
-
-//     let mostrar = `
-//     <div class="modal__show">
-  
-//     <img class="modal__img" src=${e.src} data-img=${add} data-exa=${add}></img>
-//         <div class="modal__info">
-  
-//             <div class="modal__time">12/08/2021</div>
-//             <div class="modal__icon">
-//                 <span class="modal__media"><i class="far fa-heart"></i><span>
-//             </div>
-//             </div>
-//         <i class="fas fa-times modal__close"></i>
-//         <i class="fas fa-chevron-right next"></i>
-//         <i class="fas fa-chevron-left prev"></i>
-//     </div>
-// </div>`
-
-//     modalContainer.innerHTML = mostrar
-//     let asdaxzc = document.querySelector(".modal__img")
-//     let nexta = document.querySelector(".next")
-//     console.log(modalImg)
-//     console.log(e)
-//     let conta = {...asdaxzc.dataset.img}
-//     console.log(conta)
-//      nexta.addEventListener("click", () =>{
-       
-//          console.log(modalImg.src)
-//          console.log(dataImages)
-//          for(let i = 0; i < dataImages.length; i++){
-//            console.log(dataImages[i].url)
-//            asdaxzc.src = dataImages[i].url
-//            console.log(modalImg)
-//            console.log(asdaxzc)
-//          }
-     
-//          console.log(dataImages[2].url)
-//           console.log(asdaxzc)
-//        })
-
-     }
-     
-  
-
- 
 getPost();
 getData();
+
