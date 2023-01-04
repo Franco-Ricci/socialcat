@@ -35,7 +35,7 @@ userName.addEventListener("click", (e) => {
 
 menuLog.addEventListener("click", () => {
   console.log(window.location);
-  window.location.href = "index.html";
+  window.location.href = "/index.html";
   data = [];
   localStorage.setItem("History", JSON.stringify(data));
 });
