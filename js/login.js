@@ -38,7 +38,7 @@ function dataLog(e) {
       console.log(dataInf);
       console.log(dataInf);
       localStorage.setItem("UserLogged", JSON.stringify(dataInf));
-      window.location.href = "../html/logeado.html";
+      window.location.href = "./html/logeado.html";
     } else {
       errorData.classList.add("text__warn--show");
       console.log(found);
